@@ -8,12 +8,25 @@ import { withStyles } from '@material-ui/core/styles';
 import defaultImage from './cards/2_of_clubs.svg';
 import styles from './Playing-Card.css.js'; // eslint-disable-line
 
+const cardTypeMap = {
+  D: 'diamonds',
+  S: 'spades',
+  H: 'hearts',
+  C: 'clubs',
+};
 
-const PlayingCard = ({ classes }) => (
-  <div>
-    <img src={defaultImage} className={classes.playingCard} alt="Playing Card" />
-  </div>
-);
+const PlayingCard = ({ classes, cardType }) => {
+  const req = require.context('./cards', false, /.*\.svg$/);
+  req.keys().forEach(key => {
+    req(key);
+    console.log(req(key));
+  });
+  return (
+    <div>
+      <img src={defaultImage} className={classes.playingCard} alt="Playing Card" />
+    </div>
+  );
+};
 
 PlayingCard.propTypes = { classes: propTypes.shape({}).isRequired };
 
