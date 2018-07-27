@@ -13,6 +13,7 @@ const cardCourts = {
   K: 'king',
   J: 'jack',
   Q: 'queen',
+  A: 'ace',
 };
 
 const PlayingCard = ({ cardSymbol }) => {

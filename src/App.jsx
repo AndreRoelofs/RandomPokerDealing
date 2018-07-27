@@ -1,13 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import Header from './components/Header/Header';
-import PlayingCard from './components/Playing-Card/Playing-Card';
 import './App.scss';
+import Hand from './components/Hand/Hand';
 
 const App = () => (
   <div className="App">
     <Header />
-    <PlayingCard cardSymbol="KD" />
+    <Hand cards="2D 9C AS AH AC" />
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <h1 className="App-title">

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { mount } from 'enzyme';
 import Hand from './Hand';
 
 it('renders without crashing', () => {
@@ -8,12 +9,15 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-// it('renders right cards', () => {
-//   const wrapper = mount((
-//     <div>
-//       <div data-foo="foo" data-bar="bar">
-// Hello
-//       </div>
-//     </div>
-//   ));
-// });
+it('renders right cards', () => {
+  const cards = '5D 8C 9S JS AC';
+  const wrapper = mount((
+    <Hand cards={cards} />
+  ));
+
+  expect(wrapper.contains(<img alt="playing-card" src="/cards/5_of_diamonds.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" src="/cards/8_of_clubs.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" src="/cards/9_of_spades.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" src="/cards/jack_of_spades.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" src="/cards/ace_of_clubs.svg" />)).toEqual(true);
+});
