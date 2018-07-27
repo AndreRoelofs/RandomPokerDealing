@@ -1,21 +1,37 @@
 import React from 'react';
 import propTypes from 'prop-types';
-// import './App.scss';
+import { isNumeric } from '../../Helper';
 
-const cardTypeMap = {
+const cardSuites = {
   D: 'diamonds',
   S: 'spades',
   H: 'hearts',
   C: 'clubs',
 };
 
-export const convertCardSymbolToUrl = cardSymbol => `/cards/${cardSymbol[0]}_of_${cardTypeMap[cardSymbol[1]]}.svg`;
+const cardCourts = {
+  K: 'king',
+  J: 'jack',
+  Q: 'queen',
+};
 
 const PlayingCard = ({ cardSymbol }) => {
-  const url = '/cards/2_of_clubs.svg';
-  return <img alt="test" src={url} />;
+  const url = convertCardSymbolToUrl(cardSymbol);
+  return <img alt="playing-card" src={url} />;
 };
 
 PlayingCard.propTypes = { cardSymbol: propTypes.string.isRequired };
+
+export const convertCardSymbolToUrl = cardSymbol => `/cards/${getCardCourt(cardSymbol)}_of_${getCardSuite(cardSymbol)}.svg`;
+
+export const getCardSuite = cardSymbol => cardSuites[cardSymbol[1]];
+
+export const getCardCourt = cardSymbol => {
+  const courtSymbol = cardSymbol[0];
+  if (isNumeric(courtSymbol)) {
+    return courtSymbol;
+  }
+  return cardCourts[courtSymbol];
+};
 
 export default PlayingCard;
