@@ -14,6 +14,14 @@ const cardCourts = {
   J: 'jack',
   Q: 'queen',
   A: 'ace',
+  T: '10',
+};
+
+const cardValues = {
+  ace: '14',
+  king: '13',
+  queen: '12',
+  jack: '11',
 };
 
 const PlayingCard = ({ cardSymbol }) => {
@@ -30,9 +38,16 @@ export const getCardSuite = cardSymbol => cardSuites[cardSymbol[1]];
 export const getCardCourt = cardSymbol => {
   const courtSymbol = cardSymbol[0];
   if (isNumeric(courtSymbol)) {
-    return courtSymbol;
+    return String(courtSymbol);
   }
-  return cardCourts[courtSymbol];
+  return String(cardCourts[courtSymbol]);
+};
+
+export const getCardValue = cardCourt => {
+  if (isNumeric(cardCourt)) {
+    return Number(cardCourt);
+  }
+  return Number(cardValues[cardCourt]);
 };
 
 export default PlayingCard;

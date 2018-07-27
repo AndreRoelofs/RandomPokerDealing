@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "node",
+            "name": "Launch Jest",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/test",
+            "args": [
+                "--env=jsdom",
+                "--runInBand"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "protocol": "inspector",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
