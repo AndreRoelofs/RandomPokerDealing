@@ -1,27 +1,30 @@
 {
- "extends": "airbnb",
- "rules": {
-   "class-methods-use-this": "off",
-   "no-bitwise": "off",
-   "arrow-parens": [
-     "error",
-     "as-needed"
-   ],
-   "no-constant-condition": "off",
-   "no-await-in-loop": "off",
-   "no-return-assign": "off",
-   "no-unused-vars": "warn",
-   "object-curly-newline": [
-     "error",
-     {
-       "ObjectPattern": {
-         "multiline": true,
-         "consistent": true
-       }
-     }
-   ],
-   "implicit-arrow-linebreak":"off"
- }
+  "extends": "airbnb",
+  "rules": {
+    "class-methods-use-this": "off",
+    "no-bitwise": "off",
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "no-constant-condition": "off",
+    "no-await-in-loop": "off",
+    "no-return-assign": "off",
+    "no-unused-vars": "warn",
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectPattern": {
+          "multiline": true,
+          "consistent": true
+        }
+      }
+    ],
+    "implicit-arrow-linebreak": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  }
 }
-
-
