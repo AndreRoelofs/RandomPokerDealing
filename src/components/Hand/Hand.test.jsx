@@ -1,13 +1,11 @@
+// import 'jsdom-global/register';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import Hand, { calculateHandValue, calculateCardsFrequency } from './Hand';
 import { sortArray } from '../../Helper';
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Hand cards="5H 5C 6S 7S KD" />, div);
-  ReactDOM.unmountComponentAtNode(div);
+  shallow(<Hand cards="5H 5C 6S 7S KD" />);
 });
 
 it('renders the right cards', () => {
@@ -24,31 +22,37 @@ it('renders the right cards', () => {
   expect(wrapper.contains(<img alt="playing-card" src="/cards/ace_of_clubs.svg" />)).toEqual(true);
 });
 
-it('correctly sorts the frequency of unique cards', () => {
-  const cards = 'TH 6H 9H QH JH';
+it('correctly calculates the frequency of unique cards', () => {
+  const cards = 'TH 6D 9H QD JH';
   const sortedCardFrequencyArray = getFrequencyArray(cards);
   expect(sortedCardFrequencyArray).toEqual([1, 1, 1, 1, 1]);
 });
 
-it('correctly sorts the frequency of two repeating cards', () => {
+it('correctly calculates the frequency of two repeating cards', () => {
   const cards = '9H 4D JC KS JS';
   const sortedCardFrequencyArray = getFrequencyArray(cards);
   expect(sortedCardFrequencyArray).toEqual([2, 1, 1, 1]);
 });
 
-it('correctly sorts the frequency of multiple repeating cards', () => {
+it('correctly calculates the frequency of multiple repeating cards', () => {
   const cards = '7C 7S KC KS JC';
   const sortedCardFrequencyArray = getFrequencyArray(cards);
   expect(sortedCardFrequencyArray).toEqual([2, 2, 1]);
 });
 
-it('correctly predicts the winner', () => {
+it('correctly calculates the frequency of a flush', () => {
+  const cards = 'TH 6H 9H QH JH';
+  const sortedCardFrequencyArray = getFrequencyArray(cards);
+  expect(sortedCardFrequencyArray).toEqual([5]);
+});
+
+it('correctly calculates the value of hand', () => {
   const cards = '7H 7D KH KD 9S';
   const cardsArray = cards.split(' ');
 
   const totalValue = calculateHandValue(cardsArray);
 
-  expect(totalValue).toEqual([2, [13, 7, 9]]);
+  expect(totalValue).toEqual([[2, 2, 1], [13, 7, 9]]);
 });
 
 const getFrequencyArray = cards => {

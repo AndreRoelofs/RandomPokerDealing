@@ -3,11 +3,12 @@ import logo from './logo.svg';
 import Header from './components/Header/Header';
 import './App.scss';
 import Hand from './components/Hand/Hand';
+import Round from './components/Round/Round';
 
 const App = () => (
   <div className="App">
     <Header />
-    <Hand cards="2D 9C AS AH AC" />
+    <Round cards="2H 2D 4C 4D 4S 3C 3D 3S 9S 9D" />
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <h1 className="App-title">

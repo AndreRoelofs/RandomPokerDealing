@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { shallow } from 'enzyme';
 import PlayingCard, { convertCardSymbolToUrl, getCardCourt, getCardSuite } from './Playing-Card';
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<PlayingCard cardSymbol="KD" />, div);
-  ReactDOM.unmountComponentAtNode(div);
+  shallow(<PlayingCard cardSymbol="KD" />);
 });
 
 it('Card symbol returns the right url', () => {

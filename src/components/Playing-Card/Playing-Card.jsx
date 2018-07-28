@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { isNumeric } from '../../Helper';
+import './Playing-Card.scss';
 
 const cardSuites = {
   D: 'diamonds',
@@ -26,7 +27,7 @@ const cardValues = {
 
 const PlayingCard = ({ cardSymbol }) => {
   const url = convertCardSymbolToUrl(cardSymbol);
-  return <img alt="playing-card" src={url} />;
+  return <img alt="playing-card" className="playing-card" src={url} />;
 };
 
 PlayingCard.propTypes = { cardSymbol: propTypes.string.isRequired };
