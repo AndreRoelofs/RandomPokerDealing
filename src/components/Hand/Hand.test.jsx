@@ -15,11 +15,11 @@ it('renders the right cards', () => {
     <Hand cards={cards} />
   ));
 
-  expect(wrapper.contains(<img alt="playing-card" src="/cards/5_of_diamonds.svg" />)).toEqual(true);
-  expect(wrapper.contains(<img alt="playing-card" src="/cards/8_of_clubs.svg" />)).toEqual(true);
-  expect(wrapper.contains(<img alt="playing-card" src="/cards/9_of_spades.svg" />)).toEqual(true);
-  expect(wrapper.contains(<img alt="playing-card" src="/cards/jack_of_spades.svg" />)).toEqual(true);
-  expect(wrapper.contains(<img alt="playing-card" src="/cards/ace_of_clubs.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" className="playing-card" src="/cards/5_of_diamonds.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" className="playing-card" src="/cards/8_of_clubs.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" className="playing-card" src="/cards/9_of_spades.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" className="playing-card" src="/cards/jack_of_spades.svg" />)).toEqual(true);
+  expect(wrapper.contains(<img alt="playing-card" className="playing-card" src="/cards/ace_of_clubs.svg" />)).toEqual(true);
 });
 
 it('correctly calculates the frequency of unique cards', () => {

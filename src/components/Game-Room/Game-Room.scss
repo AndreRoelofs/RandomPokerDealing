@@ -1,0 +1,29 @@
+button.main-button {
+  height: 80px;
+  width: 400px;
+  margin: 15px;
+  font-size: 20px;
+
+  &.left {
+    float: left;
+    margin-left: 5%;
+  }
+  &.right {
+    float: right;
+    margin-right: 5%;
+  }
+}
+
+.game-room-root {
+  width: 1000px;
+  margin: 150px auto 0 auto;
+}
+
+.winner-container {
+  padding-top: 100px;
+  font-size: 25px;
+}
+
+.long-button {
+  width: 200px;
+}
