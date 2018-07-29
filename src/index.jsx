@@ -44,7 +44,8 @@ const playerReducer = (state = initialPlayersState, action) => {
         };
       }
       break;
-
+    case 'RESET_SCORE':
+      return initialPlayersState;
     default:
       break;
   }

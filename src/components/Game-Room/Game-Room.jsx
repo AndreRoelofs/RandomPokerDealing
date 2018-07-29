@@ -5,30 +5,35 @@ import Button from '@material-ui/core/Button';
 import './Game-Room.scss';
 import { connect } from 'react-redux';
 import Game from '../Game/Game';
+import WinnerDetails from '../Winner-Details/Winner-Details';
 
 
 const possibleSuits = ['D', 'S', 'H', 'C'];
 const possibleCourts = ['2', '3', '4', '5', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
 
-const GameRoom = ({ setGames, games, players }) => {
-  const winner = (players.player1.score > players.player2.score)
-    ? players.player1.name : players.player2.name;
+const GameRoom = ({ setMatches, matches, players, resetScore }) => {
+  const { player1, player2 } = players;
+  let winner = null;
+  if (player1.score > 0 || player1.score > 0) {
+    winner = (player1.score > player2.score)
+      ? player1 : player2;
+  }
 
   const readTextFile = event => {
     const input = event.target;
     const reader = new FileReader();
     reader.onload = processGamesFile;
     reader.onload = () => {
-      processGamesFile(reader.result);
+      resetScore();
+      setMatches(processGamesFile(reader.result));
     };
     reader.readAsText(input.files[0]);
   };
 
   const processGamesFile = gamesFile => {
-    const retrievedGames = gamesFile.split('\n');
-    retrievedGames.pop();
-    setGames(retrievedGames);
-    return retrievedGames;
+    const retrievedMatches = gamesFile.split('\n');
+    retrievedMatches.pop();
+    return retrievedMatches;
   };
 
   return (
@@ -36,41 +41,44 @@ const GameRoom = ({ setGames, games, players }) => {
       <Button variant="contained" color="primary" className="main-button left">
         <input type="file" onChange={event => { readTextFile(event); }} />
       </Button>
-      <Button variant="contained" color="primary" className="main-button right">
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          resetScore();
+          setMatches(generateMatches(100));
+        }}
+        className="main-button right"
+      >
         Generate Games
       </Button>
-      <div className="winner-container">
-        <h3 className="winner-name">
-          {winner}
-        </h3>
-        <h3 className="winner-label">
-        WON
-        </h3>
-        <Button variant="contained" color="primary" className="long-button">
-        Show Games
-        </Button>
-      </div>
-      <Game matches={games} />
+      <WinnerDetails winner={winner} />
+      <Game matches={matches} />
     </div>
   );
 };
 
 GameRoom.propTypes = {
-  setGames: propTypes.func.isRequired,
-  games: propTypes.arrayOf(propTypes.string).isRequired,
+  setMatches: propTypes.func.isRequired,
   players: propTypes.shape({}).isRequired,
+  matches: propTypes.arrayOf(propTypes.string).isRequired,
 };
 
 const mapStateToProps = state => ({
-  games: state.gamesReducer,
+  matches: state.gamesReducer,
   players: state.playerReducer,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setGames: games => {
+  setMatches: games => {
     dispatch({
       type: 'SET_GAMES',
       payload: games,
+    });
+  },
+  resetScore: () => {
+    dispatch({
+      type: 'RESET_SCORE',
     });
   },
 });

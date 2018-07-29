@@ -4,6 +4,9 @@ import { generateUniqueKeysForItems } from '../../Helper';
 import Round from '../Round/Round';
 
 const Game = ({ matches }) => {
+  if (!matches || matches.length === 0) {
+    return <div />;
+  }
   const matchObjects = generateUniqueKeysForItems(matches);
   return matchObjects.map(element => <Round key={element.id} cards={element.value} />);
 };
