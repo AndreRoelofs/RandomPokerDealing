@@ -42,6 +42,13 @@ it('correctly determines the winner with full house and higher pair', () => {
   expect(winner).toEqual(1);
 });
 
+// it('testy', () => {
+//   const player1Cards = '2H 2D 4C 4D 4S';
+//   const player2Cards = '3C 3D 3S 9S 9D';
+//   const winner = determineWinner(player1Cards, player2Cards);
+//   expect(winner).toEqual(1);
+// });
+
 it('correctly determines the winner with full house and higher pair', () => {
   const cards = '2H 2D 4C 4D 4S 3C 3D 3S 9S 9D';
 

@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
             "type": "node",
             "name": "Launch Jest",
             "request": "launch",
@@ -18,12 +25,6 @@
             "protocol": "inspector",
             "internalConsoleOptions": "neverOpen"
         },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Launch Chrome",
-            "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
-        }
+        
     ]
 }

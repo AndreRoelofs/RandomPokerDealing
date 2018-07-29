@@ -1,11 +1,16 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Hand, { calculateHandValue } from '../Hand/Hand';
 import './Round.scss';
 
-const Round = ({ cards }) => {
+const Round = ({ cards, incrementScore }) => {
   const playerHands = splitCards(cards);
+  if (playerHands[0] === '') {
+    return <div />;
+  }
   const winner = determineWinner(playerHands[0], playerHands[1]);
+  incrementScore(`player${winner}`);
   return (
     <div className="round-root">
       <div className={(winner === 1) ? 'winner' : ''}>
@@ -17,6 +22,24 @@ const Round = ({ cards }) => {
     </div>
   );
 };
+
+Round.propTypes = {
+  cards: propTypes.string.isRequired,
+  incrementScore: propTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  incrementScore: playerName => {
+    dispatch({
+      type: 'INCREMENT_SCORE',
+      payload: {
+        name: playerName,
+      },
+    });
+  },
+});
 
 export const splitCards = cards => {
   const playerHands = [];
@@ -66,8 +89,5 @@ const compareTuples = (p1HandValue, p2HandValue, numberOfTuple) => {
   return winner;
 };
 
-Round.propTypes = {
-  cards: propTypes.string.isRequired,
-};
 
-export default Round;
+export default connect(mapStateToProps, mapDispatchToProps)(Round);

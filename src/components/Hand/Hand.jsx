@@ -32,12 +32,12 @@ export const calculateCardsValues = cardsFrequency => {
 
 export const calculateCardsFrequency = cardsArray => {
   const cardFrequency = new Map();
-  if (hasFlush(cardsArray)) {
-    cardFrequency.set('ace', 5);
-    return cardFrequency;
-  }
   if (hasStraightFlush(cardsArray)) {
     cardFrequency.set('ace', 8);
+    return cardFrequency;
+  }
+  if (hasFlush(cardsArray)) {
+    cardFrequency.set('ace', 5);
     return cardFrequency;
   }
   cardsArray.forEach(card => {
