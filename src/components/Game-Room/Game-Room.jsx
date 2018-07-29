@@ -9,21 +9,32 @@ import Game from '../Game/Game';
 
 const possibleSuits = ['D', 'S', 'H', 'C'];
 const possibleCourts = ['2', '3', '4', '5', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
-let test = null;
 
 const GameRoom = ({ setGames, games, players }) => {
-  const winner = (players.player1.score > players.player2.score) ? players.player1.name : players.player2.name;
-  console.log(players.player1.score);
-  console.log(players.player2.score);
-  const openFile = event => {
-    test = setGames;
-    readTextFile(event);
+  const winner = (players.player1.score > players.player2.score)
+    ? players.player1.name : players.player2.name;
+
+  const readTextFile = event => {
+    const input = event.target;
+    const reader = new FileReader();
+    reader.onload = processGamesFile;
+    reader.onload = () => {
+      processGamesFile(reader.result);
+    };
+    reader.readAsText(input.files[0]);
+  };
+
+  const processGamesFile = gamesFile => {
+    const retrievedGames = gamesFile.split('\n');
+    retrievedGames.pop();
+    setGames(retrievedGames);
+    return retrievedGames;
   };
 
   return (
     <div className="game-room-root">
       <Button variant="contained" color="primary" className="main-button left">
-        <input type="file" onChange={event => { openFile(event); }} />
+        <input type="file" onChange={event => { readTextFile(event); }} />
       </Button>
       <Button variant="contained" color="primary" className="main-button right">
         Generate Games
@@ -64,22 +75,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export const processGamesFile = gamesFile => {
-  const games = gamesFile.split('\n');
-  games.pop();
-  test(games);
-  return games;
-};
-
-export const readTextFile = event => {
-  const input = event.target;
-  const reader = new FileReader();
-  reader.onload = processGamesFile;
-  reader.onload = () => {
-    processGamesFile(reader.result);
-  };
-  reader.readAsText(input.files[0]);
-};
 
 export const generateMatches = numberOfGames => {
   const games = [];

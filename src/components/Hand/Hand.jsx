@@ -43,46 +43,6 @@ export const calculateIndividualCardValues = cardsFrequency =>
   Array.from(cardsFrequency.keys()).map(key => getCardValue(key));
 
 
-// export const getSpecialCardCombinations = cardsArray => {
-//   const hasFlush = true;
-//   const hasStraight = true;
-
-//   for (let i = 1; i < cardsArray.length; i += 1) {
-//     const card = cardsArray[i];
-//     const previousCard = cardsArray[i - 1];
-
-//     // if (!areSuitsEqual(card, previousCard)) {
-//     //   hasFlush = false;
-//     // }
-
-//     // if (!areCardValuesIncremental(previousCard, card)) {
-//     //   hasStraight = false;
-//     // }
-//   }
-
-//   if (hasFlush && hasRoyalFlush(cardsArray)) return 'ROYALFLUSH';
-//   if (hasFlush && hasStraight) return 'STRAIGHTFLUSH';
-//   if (hasFlush) return 'FLUSH';
-//   if (hasStraight) return 'STRAIGHT';
-//   return 'NONE';
-// };
-
-// const getSpecialCombinationValue = combination => {
-//   switch (combination) {
-//     case 'ROYALFLUSH':
-//       return 8;
-//     case 'STRAIGHTFLUSH':
-//       return 7;
-//     case 'FLUSH':
-//       return 5;
-//     case 'STRAIGHT':
-//       return 4;
-//     default:
-//       throw Error(`Value of ${combination} is not defined`);
-//   }
-// };
-
-
 export const hasRoyalFlush = cardsArray => {
   const cardCourtsRequired = ['10', 'jack', 'queen', 'king', 'ace'];
   let qualifies = true;
@@ -153,9 +113,10 @@ export const hasIncrementalCourts = cardsArray => {
   const hasIncrementalCardValues = (card1, card2) =>
     getCardValue(getCardCourt(card1)) + 1 === getCardValue(getCardCourt(card2));
 
-  for (let i = 1; i < cardsArray.length; i += 1) {
-    const card = cardsArray[i];
-    const previousCard = cardsArray[i - 1];
+  const sortedCards = sortByCardValueAsc(cardsArray);
+  for (let i = 1; i < sortedCards.length; i += 1) {
+    const card = sortedCards[i];
+    const previousCard = sortedCards[i - 1];
     if (!hasIncrementalCardValues(previousCard, card)) {
       return false;
     }
@@ -191,6 +152,21 @@ export const sortFrequencyDesc = cardsFrequency =>
     }
     return -1;
   }));
+
+export const sortByCardValueAsc = cardsArray => {
+  cardsArray.sort((card1, card2) => {
+    const court1 = getCardCourt(card1);
+    const court2 = getCardCourt(card2);
+    if (getCardValue(court1) > getCardValue(court2)) {
+      return 1;
+    }
+    if (getCardValue(court1) < getCardValue(court2)) {
+      return -1;
+    }
+    return 0;
+  });
+  return cardsArray;
+};
 
 
 export default Hand;
