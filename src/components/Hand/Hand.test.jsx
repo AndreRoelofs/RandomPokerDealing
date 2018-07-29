@@ -1,8 +1,7 @@
 // import 'jsdom-global/register';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import Hand, { calculateHandValue, calculateCardsFrequency, hasRoyalFlush } from './Hand';
-import { sortArray } from '../../Helper';
+import Hand, { hasRoyalFlush, hasFourOfAKind, hasFullHouse, hasStraightFlush, hasStraight, hasThreeOfAKind, hasTwoOfAKind, hasTwoPairs, calculateHandValue } from './Hand';
 
 it('renders without crashing', () => {
   shallow(<Hand cards="5H 5C 6S 7S KD" />);
@@ -22,72 +21,79 @@ it('renders the right cards', () => {
   expect(wrapper.contains(<img alt="playing-card" className="playing-card" src="/cards/ace_of_clubs.svg" />)).toEqual(true);
 });
 
-it('correctly calculates the frequency of unique cards', () => {
-  const cards = 'TH 6D 9H QD JH';
-  const sortedCardFrequencyArray = getFrequencyArray(cards);
-  expect(sortedCardFrequencyArray).toEqual([1, 1, 1, 1, 1]);
-});
-
-it('correctly calculates the frequency of two repeating cards', () => {
-  const cards = '9H 4D JC KS JS';
-  const sortedCardFrequencyArray = getFrequencyArray(cards);
-  expect(sortedCardFrequencyArray).toEqual([2, 1, 1, 1]);
-});
-
-it('correctly calculates the frequency of multiple repeating cards', () => {
-  const cards = '7C 7S KC KS JC';
-  const sortedCardFrequencyArray = getFrequencyArray(cards);
-  expect(sortedCardFrequencyArray).toEqual([2, 2, 1]);
-});
-
-it('correctly calculates the frequency of a flush', () => {
-  const cards = 'TH 6H 9H QH JH';
-  const sortedCardFrequencyArray = getFrequencyArray(cards);
-  expect(sortedCardFrequencyArray).toEqual([5]);
-});
-
-it('correctly calculates the frequency of a straight', () => {
-  const cards = 'TD JH QS KH AH';
-  const sortedCardFrequencyArray = getFrequencyArray(cards);
-  expect(sortedCardFrequencyArray).toEqual([4]);
-});
-
-it('correctly calculates the frequency of a straight flush', () => {
-  const cards = '9D TD JD QD KD';
-  const sortedCardFrequencyArray = getFrequencyArray(cards);
-  expect(sortedCardFrequencyArray).toEqual([7]);
-});
-
-
-it('correctly calculates the value of hand', () => {
-  const cards = '7H 7D KH KD 9S';
-  const cardsArray = cards.split(' ');
-
-  const totalValue = calculateHandValue(cardsArray);
-
-  expect(totalValue).toEqual([[2, 2, 1], [13, 7, 9]]);
-});
-
-
-it('finds no royal flush', () => {
-  const cards = '7H 7D KH KD 9S';
-  const cardsArray = cards.split(' ');
-
-  expect(hasRoyalFlush(cardsArray)).toEqual(false);
-});
-
-it('finds royal flush', () => {
+it('correctly determines royal flush', () => {
   const cards = 'KD AD QD TD JD';
   const cardsArray = cards.split(' ');
-
   expect(hasRoyalFlush(cardsArray)).toEqual(true);
 });
 
-const getFrequencyArray = cards => {
+it('correctly determines straight flush', () => {
+  const cards = '9D TD JD QD KD';
   const cardsArray = cards.split(' ');
+  expect(hasStraightFlush(cardsArray)).toEqual(true);
+});
 
-  const cardFrequency = Array.from(calculateCardsFrequency(cardsArray).values());
-  const cardFrequenceArray = Object.keys(cardFrequency).map(key => cardFrequency[key]);
 
-  return sortArray(cardFrequenceArray, 'DESC');
-};
+it('correctly determines four of a kind', () => {
+  const cards = 'TH TD TC TS JH';
+  const cardsArray = cards.split(' ');
+  expect(hasFourOfAKind(cardsArray)).toEqual(true);
+});
+
+it('correctly determines full house', () => {
+  const cards = '3H 3D 3C 2S 2H';
+  const cardsArray = cards.split(' ');
+  expect(hasFullHouse(cardsArray)).toEqual(true);
+});
+
+it('correctly determines flush', () => {
+  const cards = '3H 3D 3C 2S 2H';
+  const cardsArray = cards.split(' ');
+  expect(hasFullHouse(cardsArray)).toEqual(true);
+});
+
+it('correctly determines straight', () => {
+  const cards = 'TD JH QS KH AH';
+  const cardsArray = cards.split(' ');
+  expect(hasStraight(cardsArray)).toEqual(true);
+});
+
+it('correctly determines three of a kind', () => {
+  const cards = '3D 3H 3S KH AH';
+  const cardsArray = cards.split(' ');
+  expect(hasThreeOfAKind(cardsArray)).toEqual(true);
+});
+
+
+it('correctly determines two pair', () => {
+  const cards = '3D 3H 2S 2H AH';
+  const cardsArray = cards.split(' ');
+  expect(hasTwoPairs(cardsArray)).toEqual(true);
+});
+
+it('correctly determines a pair', () => {
+  const cards = '3D 3H 9S KH AH';
+  const cardsArray = cards.split(' ');
+  expect(hasTwoOfAKind(cardsArray)).toEqual(true);
+});
+
+it('correctly calculates hand value with a pair', () => {
+  const cards = '4D 6S 9H QH QC';
+  const cardsArray = cards.split(' ');
+  const handValue = calculateHandValue(cardsArray);
+  expect(handValue).toEqual([1, [12, 9, 6, 4]]);
+});
+
+it('correctly calculates hand value with a single card', () => {
+  const cards = '5D 8C 9S JS AC';
+  const cardsArray = cards.split(' ');
+  const handValue = calculateHandValue(cardsArray);
+  expect(handValue).toEqual([0, [14, 11, 9, 8, 5]]);
+});
+
+it('correctly calculates hand value with a royal flush', () => {
+  const cards = 'TD JD QD KD AD';
+  const cardsArray = cards.split(' ');
+  const handValue = calculateHandValue(cardsArray);
+  expect(handValue).toEqual([9, [14, 13, 12, 11, 10]]);
+});
