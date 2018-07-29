@@ -66,6 +66,7 @@ const mapDispatchToProps = dispatch => ({
 
 export const processGamesFile = gamesFile => {
   const games = gamesFile.split('\n');
+  games.pop();
   test(games);
   return games;
 };

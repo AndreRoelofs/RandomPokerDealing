@@ -68,6 +68,7 @@ export const determineWinner = (player1Cards, player2Cards) => {
 export const compareFirstTuple = (p1HandValue, p2HandValue) =>
   compareTuples(p1HandValue, p2HandValue, 0);
 
+
 export const compareSecondTuple = (p1HandValue, p2HandValue) =>
   compareTuples(p1HandValue, p2HandValue, 1);
 

@@ -1,7 +1,7 @@
 // import 'jsdom-global/register';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import Hand, { calculateHandValue, calculateCardsFrequency } from './Hand';
+import Hand, { calculateHandValue, calculateCardsFrequency, hasRoyalFlush } from './Hand';
 import { sortArray } from '../../Helper';
 
 it('renders without crashing', () => {
@@ -46,6 +46,19 @@ it('correctly calculates the frequency of a flush', () => {
   expect(sortedCardFrequencyArray).toEqual([5]);
 });
 
+it('correctly calculates the frequency of a straight', () => {
+  const cards = 'TD JH QS KH AH';
+  const sortedCardFrequencyArray = getFrequencyArray(cards);
+  expect(sortedCardFrequencyArray).toEqual([4]);
+});
+
+it('correctly calculates the frequency of a straight flush', () => {
+  const cards = '9D TD JD QD KD';
+  const sortedCardFrequencyArray = getFrequencyArray(cards);
+  expect(sortedCardFrequencyArray).toEqual([7]);
+});
+
+
 it('correctly calculates the value of hand', () => {
   const cards = '7H 7D KH KD 9S';
   const cardsArray = cards.split(' ');
@@ -53,6 +66,21 @@ it('correctly calculates the value of hand', () => {
   const totalValue = calculateHandValue(cardsArray);
 
   expect(totalValue).toEqual([[2, 2, 1], [13, 7, 9]]);
+});
+
+
+it('finds no royal flush', () => {
+  const cards = '7H 7D KH KD 9S';
+  const cardsArray = cards.split(' ');
+
+  expect(hasRoyalFlush(cardsArray)).toEqual(false);
+});
+
+it('finds royal flush', () => {
+  const cards = 'KD AD QD TD JD';
+  const cardsArray = cards.split(' ');
+
+  expect(hasRoyalFlush(cardsArray)).toEqual(true);
 });
 
 const getFrequencyArray = cards => {
