@@ -60,6 +60,7 @@ const GameRoom = ({ setMatches, matches, players, resetScore }) => {
 
 GameRoom.propTypes = {
   setMatches: propTypes.func.isRequired,
+  resetScore: propTypes.func.isRequired,
   players: propTypes.shape({}).isRequired,
   matches: propTypes.arrayOf(propTypes.string).isRequired,
 };

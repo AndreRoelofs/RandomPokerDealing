@@ -21,7 +21,11 @@ const WinnerDetails = ({ winner }) => {
 };
 
 WinnerDetails.propTypes = {
-  winner: propTypes.shape({ name: '', score: 0 }).isRequired,
+  winner: propTypes.shape({ name: '', score: 0 }),
+};
+
+WinnerDetails.defaultProps = {
+  winner: null,
 };
 
 export default WinnerDetails;
