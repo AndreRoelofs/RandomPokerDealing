@@ -50,7 +50,7 @@ const GameRoom = ({ setMatches, matches, players, resetScore }) => {
         }}
         className="main-button right"
       >
-        Generate Games
+        Generate 100 Random Games
       </Button>
       <WinnerDetails winner={winner} />
       <Game matches={matches} />

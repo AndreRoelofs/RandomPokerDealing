@@ -12,9 +12,6 @@ const Hand = ({ cards }) => {
 Hand.propTypes = { cards: propTypes.string.isRequired };
 
 export const calculateHandValue = cardsArray => {
-  let cardsFrequency = calculateCardsFrequency(cardsArray);
-  cardsFrequency = sortFrequencyDesc(cardsFrequency);
-  const individualCardValues = calculateIndividualCardValues(cardsFrequency);
   let handValue = 9;
   const cardsCombinations = [
     hasRoyalFlush,
@@ -28,6 +25,10 @@ export const calculateHandValue = cardsArray => {
     hasTwoOfAKind,
   ];
 
+  let cardsFrequency = calculateCardsFrequency(cardsArray);
+  cardsFrequency = sortFrequencyDesc(cardsFrequency);
+  const individualCardValues = calculateIndividualCardValues(cardsFrequency);
+
   for (let i = 0; i < cardsCombinations.length; i += 1) {
     const isCombinationValid = cardsCombinations[i];
     if (isCombinationValid(cardsArray)) {
@@ -39,8 +40,37 @@ export const calculateHandValue = cardsArray => {
   return [handValue, individualCardValues];
 };
 
+export const calculateCardsFrequency = cardsArray => {
+  const cardFrequency = new Map();
+  cardsArray.forEach(card => {
+    const court = String(getCardCourt(card));
+    if (cardFrequency.get(court) != null) {
+      cardFrequency.set(court, cardFrequency.get(court) + 1);
+    } else {
+      cardFrequency.set(court, 1);
+    }
+  });
+  return cardFrequency;
+};
+
+export const sortFrequencyDesc = cardsFrequency =>
+  new Map([...cardsFrequency.entries()].sort((a, b) => {
+    const aCardCourt = a[0];
+    const aFrequency = a[1];
+    const bCardCourt = b[0];
+    const bFrequency = b[1];
+
+    if (aFrequency < bFrequency) {
+      return 1;
+    }
+    if (aFrequency === bFrequency && getCardValue(aCardCourt) < getCardValue(bCardCourt)) {
+      return 1;
+    }
+    return -1;
+  }));
+
 export const calculateIndividualCardValues = cardsFrequency =>
-  Array.from(cardsFrequency.keys()).map(key => getCardValue(key));
+  Array.from(cardsFrequency.keys()).map(court => getCardValue(court));
 
 
 export const hasRoyalFlush = cardsArray => {
@@ -60,8 +90,6 @@ export const hasRoyalFlush = cardsArray => {
   return qualifies;
 };
 
-export const hasStraightFlush = cardsArray =>
-  hasSameSuits(cardsArray) && hasIncrementalCourts(cardsArray);
 
 export const hasStraight = cardsArray => hasIncrementalCourts(cardsArray);
 export const hasFlush = cardsArray => hasSameSuits(cardsArray);
@@ -95,6 +123,9 @@ export const hasFullHouse = cardsArray => {
 };
 
 
+export const hasStraightFlush = cardsArray =>
+  hasSameSuits(cardsArray) && hasIncrementalCourts(cardsArray);
+
 export const hasSameSuits = cardsArray => {
   const hasEqualSuits = (card1, card2) => getCardSuite(card1) === getCardSuite(card2);
 
@@ -123,35 +154,6 @@ export const hasIncrementalCourts = cardsArray => {
   }
   return true;
 };
-
-export const calculateCardsFrequency = cardsArray => {
-  const cardFrequency = new Map();
-  cardsArray.forEach(card => {
-    const court = String(getCardCourt(card));
-    if (cardFrequency.get(court) != null) {
-      cardFrequency.set(court, cardFrequency.get(court) + 1);
-    } else {
-      cardFrequency.set(court, 1);
-    }
-  });
-  return cardFrequency;
-};
-
-export const sortFrequencyDesc = cardsFrequency =>
-  new Map([...cardsFrequency.entries()].sort((a, b) => {
-    const aCardCourt = a[0];
-    const aFrequency = a[1];
-    const bCardCourt = b[0];
-    const bFrequency = b[1];
-
-    if (aFrequency < bFrequency) {
-      return 1;
-    }
-    if (aFrequency === bFrequency && getCardValue(aCardCourt) < getCardValue(bCardCourt)) {
-      return 1;
-    }
-    return -1;
-  }));
 
 export const sortByCardValueAsc = cardsArray => {
   cardsArray.sort((card1, card2) => {

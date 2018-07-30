@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import PlayingCard, { convertCardSymbolToUrl, getCardCourt, getCardSuite } from './Playing-Card';
+import PlayingCard, { convertCardSymbolToUrl, getCardCourt, getCardSuite, getCardValue } from './Playing-Card';
 
 it('renders without crashing', () => {
   shallow(<PlayingCard cardSymbol="KD" />);
@@ -20,4 +19,9 @@ it('Card symbol returns the right court', () => {
 it('Card symbol returns the right suite', () => {
   const url = getCardSuite('QD');
   expect(url).toEqual('diamonds');
+});
+
+it('returns correct card value', () => {
+  const value = getCardValue('queen');
+  expect(value).toEqual(12);
 });

@@ -28,7 +28,7 @@ Round.propTypes = {
   incrementScore: propTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
   incrementScore: playerName => {

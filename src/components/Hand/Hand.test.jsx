@@ -1,7 +1,7 @@
 // import 'jsdom-global/register';
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import Hand, { hasRoyalFlush, hasFourOfAKind, hasFullHouse, hasStraightFlush, hasStraight, hasThreeOfAKind, hasTwoOfAKind, hasTwoPairs, calculateHandValue } from './Hand';
+import Hand, { hasRoyalFlush, hasFourOfAKind, hasFullHouse, hasStraightFlush, hasStraight, hasThreeOfAKind, hasTwoOfAKind, hasTwoPairs, calculateHandValue, sortByCardValueAsc, calculateCardsFrequency, sortFrequencyDesc } from './Hand';
 
 it('renders without crashing', () => {
   shallow(<Hand cards="5H 5C 6S 7S KD" />);
@@ -96,4 +96,29 @@ it('correctly calculates hand value with a royal flush', () => {
   const cardsArray = cards.split(' ');
   const handValue = calculateHandValue(cardsArray);
   expect(handValue).toEqual([9, [14, 13, 12, 11, 10]]);
+});
+
+it('correctly sorts cards based on the value of their court', () => {
+  const cards = '2D 6S 3H AC KH';
+  const cardsArray = cards.split(' ');
+  const sortedCardsArray = sortByCardValueAsc(cardsArray);
+  expect(sortedCardsArray).toEqual(['2D', '3H', '6S', 'KH', 'AC']);
+});
+
+it('correctly calculates the frequency of cards and correctly sorts them', () => {
+  const cards = '2D 6S 2H AC KH';
+  const cardsArray = cards.split(' ');
+  const cardsFrequency = calculateCardsFrequency(cardsArray);
+  const cardsFrequencyArray = Array.from(cardsFrequency.values());
+  expect(cardsFrequencyArray).toEqual([2, 1, 1, 1]);
+});
+
+
+it('correctly sorts the cards frequency', () => {
+  const cards = '2D 6S 2H AC AH';
+  const cardsArray = cards.split(' ');
+  let cardsFrequency = calculateCardsFrequency(cardsArray);
+  cardsFrequency = sortFrequencyDesc(cardsFrequency);
+  const cardsFrequencyArray = Array.from(cardsFrequency.values());
+  expect(cardsFrequencyArray).toEqual([2, 2, 1]);
 });
