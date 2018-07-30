@@ -6,7 +6,6 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import GameRoom from './components/Game-Room/Game-Room';
 
 const gamesReducer = (state = [], action) => {
   switch (action.type) {
@@ -44,9 +43,9 @@ const playerReducer = (state = initialPlayersState, action) => {
           },
         };
       }
-      console.log('Nobody won a game');
       break;
-
+    case 'RESET_SCORE':
+      return initialPlayersState;
     default:
       break;
   }

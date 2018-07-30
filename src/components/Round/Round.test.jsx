@@ -1,9 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Round, { determineWinner, splitCards } from './Round';
+import configureStore from 'redux-mock-store';
+import Round, { determineWinner, splitCards, compareFirstTuples, compareSecondTuples } from './Round';
+
+const mockStore = configureStore();
 
 it('renders without crashing', () => {
-  shallow(<Round cards="2H 2D 4C 4D 4S 3C 3D 3S 9S 9D" />);
+  shallow(<Round cards="2H 2D 4C 4D 4S 3C 3D 3S 9S 9D" store={mockStore({ runtime: {} })} />);
 });
 
 it('correctly determines the winner with a higher pair', () => {
@@ -104,4 +107,14 @@ it('correctly determines the winner with full house and higher pair', () => {
   const playerHands = splitCards(cards);
 
   expect(playerHands).toEqual(['2H 2D 4C 4D 4S', '3C 3D 3S 9S 9D']);
+});
+
+it('correctly compares the first tuples', () => {
+  const winner = compareFirstTuples([[2, 2, 1]], [[2, 1, 1]]);
+  expect(winner).toEqual(1);
+});
+
+it('correctly compares the second tuples', () => {
+  const winner = compareSecondTuples([[], [13, 7, 9]], [[], [13, 7, 11]]);
+  expect(winner).toEqual(2);
 });

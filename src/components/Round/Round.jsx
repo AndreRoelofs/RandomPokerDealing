@@ -28,7 +28,7 @@ Round.propTypes = {
   incrementScore: propTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
   incrementScore: playerName => {
@@ -52,29 +52,27 @@ export const determineWinner = (player1Cards, player2Cards) => {
   const p1HandValue = calculateHandValue(player1Cards.split(' '));
   const p2HandValue = calculateHandValue(player2Cards.split(' '));
 
-  let winner = compareFirstTuple(p1HandValue, p2HandValue);
+  let winner = compareFirstTuples(p1HandValue, p2HandValue);
 
   if (winner === 0) {
-    winner = compareSecondTuple(p1HandValue, p2HandValue);
+    winner = compareSecondTuples(p1HandValue, p2HandValue);
 
     if (winner === 0) {
       throw Error('No winner could be determined');
     }
   }
-
   return winner;
 };
 
-export const compareFirstTuple = (p1HandValue, p2HandValue) =>
-  compareTuples(p1HandValue, p2HandValue, 0);
+export const compareFirstTuples = (p1HandValue, p2HandValue) => {
+  if (p1HandValue[0] === p2HandValue[0]) { return 0; }
+  return (p1HandValue[0] > p2HandValue[0]) ? 1 : 2;
+};
 
 
-export const compareSecondTuple = (p1HandValue, p2HandValue) =>
-  compareTuples(p1HandValue, p2HandValue, 1);
-
-const compareTuples = (p1HandValue, p2HandValue, numberOfTuple) => {
-  const p1Tuple = p1HandValue[numberOfTuple];
-  const p2Tuple = p2HandValue[numberOfTuple];
+export const compareSecondTuples = (p1HandValue, p2HandValue) => {
+  const p1Tuple = p1HandValue[1];
+  const p2Tuple = p2HandValue[1];
   let winner = 0;
   const minLength = Math.min(p1Tuple.length, p2Tuple.length);
   for (let i = 0; i < minLength; i += 1) {
@@ -89,6 +87,5 @@ const compareTuples = (p1HandValue, p2HandValue, numberOfTuple) => {
   }
   return winner;
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Round);
